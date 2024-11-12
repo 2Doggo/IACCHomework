@@ -31,6 +31,15 @@ def pop_tarea(equipo, nombre_miembro):
         print(f"No hay tareas pendientes para {nombre_miembro}")
         return None
 
+# Elimina todas las tareas pendientes de un miembro del equipo (VACIAR)
+def vaciar_tareas(equipo, nombre_miembro):
+    if nombre_miembro in equipo:
+        cantidad_tareas = len(equipo[nombre_miembro])
+        equipo[nombre_miembro].clear()  # Vacía la lista de tareas
+        print(f"Se han eliminado {cantidad_tareas} tareas pendientes de {nombre_miembro}")
+    else:
+        print(f"Error: {nombre_miembro} no existe en el equipo.")
+
 #Mostrar las tareas pendientes de un miembro
 def ver_tareas_miembro(equipo, nombre_miembro):
     if nombre_miembro in equipo:
@@ -61,15 +70,19 @@ def main():
     agregar_miembro(equipo1, "Ana")
     agregar_miembro(equipo1, "Carlos")
     agregar_miembro(equipo1, "Diana")
+    agregar_miembro(equipo1, "Diego")
 
     # Asignar tareas
-    push_tarea(equipo1, "Ana", "Implementar login")
-    push_tarea(equipo1, "Ana", "Realizar pruebas unitarias")
-    push_tarea(equipo1, "Carlos", "Diseñar base de datos")
+    push_tarea(equipo1, "Ana", "Revisar Front")
+    push_tarea(equipo1, "Ana", "Realizar QA a la Store")
+    push_tarea(equipo1, "Carlos", "Diseñar base de datos en MySQL para clientes")
     push_tarea(equipo1, "Diana", "Documentar API")
-    push_tarea(equipo1, "Diana", "Revisar pull requests")
+    push_tarea(equipo1, "Diana", "Revisar AWS Lambda")
+    push_tarea(equipo1, "Diego", "Mandar tarea IACC")
+    push_tarea(equipo1, "Diego", "Hacer tarea IACC ")
 
     # Ver todas las tareas
+    print("\nTareas: ")
     ver_todas_tareas(equipo1)
 
     # Completar algunas tareas
@@ -77,6 +90,11 @@ def main():
     pop_tarea(equipo1, "Ana")
     pop_tarea(equipo1, "Diana")
     pop_tarea(equipo1, "Diana")
+    pop_tarea(equipo1, "Diana")
+
+    # Vaciar las tareas de Diego
+    print("\nVaciando tareas de Diego...")
+    vaciar_tareas(equipo1, "Diego")
 
     # Ver el estado actualizado
     ver_todas_tareas(equipo1)
