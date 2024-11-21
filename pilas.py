@@ -1,8 +1,6 @@
+# Crear y retornar un diccionario vacío para almacenar las pilas de tareas
 def crear_equipo():
-    # Crea y retorna un diccionario vacío para almacenar las pilas de tareas
     return {}
-
-
 
 # Agregar un nuevo miembro al equipo con una pila de tareas vacía
 def agregar_miembro(equipo, nombre_miembro):
@@ -13,7 +11,7 @@ def agregar_miembro(equipo, nombre_miembro):
         print(f"{nombre_miembro} ya está en el equipo.")
 
 
-#Añadir una nueva tarea a la pila de un miembro (PUSH)
+# Añadir una nueva tarea a la pila de un miembro (PUSH)
 def push_tarea(equipo, nombre_miembro, descripcion):
     if nombre_miembro in equipo:
         equipo[nombre_miembro].append(descripcion)
@@ -21,7 +19,7 @@ def push_tarea(equipo, nombre_miembro, descripcion):
     else:
         print(f"Error: {nombre_miembro} no existe en el equipo.")
 
-#Remover y retornar la última tarea asignada a un miembro (POP) o avisar que el miembro no tiene tareas (pila vacía)
+# Remover y retornar la última tarea asignada a un miembro (POP) o avisar que el miembro no tiene tareas (pila vacía)
 def pop_tarea(equipo, nombre_miembro):
     if nombre_miembro in equipo and equipo[nombre_miembro]:
         tarea = equipo[nombre_miembro].pop()
@@ -31,7 +29,7 @@ def pop_tarea(equipo, nombre_miembro):
         print(f"No hay tareas pendientes para {nombre_miembro}")
         return None
 
-# Elimina todas las tareas pendientes de un miembro del equipo (VACIAR)
+# Eliminar todas las tareas pendientes de un miembro del equipo (VACIAR)
 def vaciar_tareas(equipo, nombre_miembro):
     if nombre_miembro in equipo:
         cantidad_tareas = len(equipo[nombre_miembro])
@@ -40,7 +38,7 @@ def vaciar_tareas(equipo, nombre_miembro):
     else:
         print(f"Error: {nombre_miembro} no existe en el equipo.")
 
-#Mostrar las tareas pendientes de un miembro
+# Mostrar las tareas pendientes de un miembro
 def ver_tareas_miembro(equipo, nombre_miembro):
     if nombre_miembro in equipo:
         tareas = equipo[nombre_miembro]
@@ -55,13 +53,14 @@ def ver_tareas_miembro(equipo, nombre_miembro):
     else:
         print(f"Error: {nombre_miembro} no existe en el equipo.")
 
-#Muestra todas las tareas pendientes del equipo
+# Mostar todas las tareas pendientes del equipo
 def ver_todas_tareas(equipo):
     print("\nEstado actual de tareas del equipo:")
     for miembro in equipo:
         ver_tareas_miembro(equipo, miembro)
 
 
+# Ejemplo de uso
 def main():
     # Crear el equipo
     equipo1 = crear_equipo()
@@ -92,7 +91,7 @@ def main():
     pop_tarea(equipo1, "Diana")
     pop_tarea(equipo1, "Diana")
 
-    # Vaciar las tareas de Diego
+    # Vaciar tareas
     print("\nVaciando tareas de Diego...")
     vaciar_tareas(equipo1, "Diego")
 
@@ -100,5 +99,6 @@ def main():
     ver_todas_tareas(equipo1)
 
 
+# Inicializacion
 if __name__ == "__main__":
     main()
