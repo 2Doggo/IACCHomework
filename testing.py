@@ -1,104 +1,81 @@
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+class Paquete:
+    def __init__(self, codigo, destino, estado="Pendiente"):
+        self.codigo = codigo
+        self.destino = destino
+        self.estado = estado
+
+    def __str__(self):
+        return f"Paquete {self.codigo} para {self.destino} - Estado: {self.estado}"
 
 
-class LinkedList:
+class Nodo:
+    def __init__(self, paquete):
+        self.paquete = paquete
+        self.siguiente = None
+        self.anterior = None
+
+
+class ListaPaquetes:
     def __init__(self):
-        self.head = None
+        self.cabeza = None
+        self.cola = None
 
-    def insert(self, data):
-        new_node = Node(data)
-        if self.head is None:
-            self.head = new_node
+    def insertar_paquete(self, codigo, destino, estado="Pendiente"):
+        nuevo_paquete = Paquete(codigo, destino, estado)
+        nuevo_nodo = Nodo(nuevo_paquete)
+
+        if not self.cabeza:
+            self.cabeza = nuevo_nodo
+            self.cola = nuevo_nodo
         else:
-            current = self.head
-            while current.next:
-                current = current.next
-            current.next = new_node
+            nuevo_nodo.anterior = self.cola
+            self.cola.siguiente = nuevo_nodo
+            self.cola = nuevo_nodo
 
-    def search_iterative(self, value):
 
-        current = self.head
-        position = 0
+# Actualizar el estado de un paquete
+    def actualizar_estado(self, codigo, nuevo_estado):
+        actual = self.cabeza
+        while actual:
+            if actual.paquete.codigo == codigo:
+                estado_anterior = actual.paquete.estado
+                actual.paquete.estado = nuevo_estado
+                print(f"Estado actualizado para paquete {codigo}")
+                print(f"Estado anterior: {estado_anterior}")
+                print(f"Nuevo estado: {nuevo_estado}")
+                return True
+            actual = actual.siguiente
+        print(f"No se encontró el paquete {codigo}")
+        return False
 
-        # Mientras el nodo actual no sea nulo
-        while current is not None:
-            if current.data == value:
-                print(f"Elemento {value} encontrado en la posición {position}")
-                return current, position
-            current = current.next
-            position += 1
-
-        print(f"Elemento {value} no encontrado en la lista")
-        return None, -1
-
-    def delete(self, value):
-        # Retorna True si se eliminó el elemento, False si no se encontró
-        # Verificar si la lista está vacía
-        if self.head is None:
-            print("La lista está vacía")
-            return False
-
-        # Si el elemento a eliminar está en la cabeza
-        if self.head.data == value:
-            self.head = self.head.next
-            print(f"Elemento {value} eliminado (head)")
-            return True
-
-        # Buscar el elemento a eliminar
-        current = self.head
-        while current.next is not None and current.next.data != value:
-            current = current.next
-
-        # Si encontramos el elemento, eliminarlo actualizando los enlaces
-        if current.next is not None:
-            current.next = current.next.next
-            print(f"Elemento {value} eliminado")
-            return True
-        else:
-            print(f"Elemento {value} no encontrado")
-            return False
-
-    def display(self):
-        # Método auxiliar para mostrar la lista
-        if self.head is None:
-            print("Lista vacía")
+    def mostrar_paquetes(self):
+        actual = self.cabeza
+        if not actual:
+            print("No hay paquetes en la lista")
             return
 
-        current = self.head
-        while current:
-            print(current.data, end=" -> ")
-            current = current.next
-        print("None")
+        print("\nLista de paquetes:")
+        while actual:
+            print(actual.paquete)
+            actual = actual.siguiente
 
 
 # Ejemplo
-my_list = LinkedList()
+lista_paquetes = ListaPaquetes()
 
-# Insertar algunos elementos para probar
-print("Lista de ejemplo:")
-elements = [5, 10, 15, 20, 25]
-for elem in elements:
-    my_list.insert(elem)
-my_list.display()
+print("Insertando paquetes de prueba...")
+lista_paquetes.insertar_paquete("P001", "Los Reyes 1220", "Pendiente")
+lista_paquetes.insertar_paquete("P002", "Barcelona 435", "Pendiente")
+lista_paquetes.insertar_paquete("P003", "Pajaritos 450 Block 4 piso 3 habitacion 12", "Pendiente")
+lista_paquetes.insertar_paquete("P004", "Chile", "Pendiente")
+lista_paquetes.mostrar_paquetes()
 
-# Realizar diferentes búsquedas
-print("\nBuscando elemento 15")
-node, pos = my_list.search_iterative(15)
-if node:
-    print(f"Valor del nodo encontrado: {node.data}")
+# Actualizar estado de un paquete específico
+print("\nActualizando estado del paquete P002...")
+lista_paquetes.actualizar_estado("P002", "En tránsito")
+# Actualizar estado de un paquete inexistente
+lista_paquetes.actualizar_estado("P006", "En tránsito")
 
-print("\nBuscando el elemento 10")
-node, pos = my_list.search_iterative(10)
-if node:
-    print(f"Valor del nodo encontrado: {node.data}")
-
-print("\nBuscando el elemento 25")
-node, pos = my_list.search_iterative(25)
-if node:
-    print(f"Valor del nodo encontrado: {node.data}")
-
-print("\nBuscando elemento que no existe en la lista):")
-node, pos = my_list.search_iterative(7)
+# Mostrar estado final
+print("\nEstado final de los paquetes:")
+lista_paquetes.mostrar_paquetes()
